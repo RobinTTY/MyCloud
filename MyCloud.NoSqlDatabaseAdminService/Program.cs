@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
+using MyCloud.NoSqlDatabaseAdminService.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSingleton(new ApiContext());
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,12 +18,17 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1.0",
         Title = "MyCloud - NoSql Database Admin Service",
         Description = "The MyCloud - NoSql Database Admin Service provides a database service for modern app development." +
-                      "Enjoy elastic scalability while automating time‐consuming database admin tasks",
+                      "Enjoy elastic scalability while automating time‐consuming database administration tasks.",
         Contact = new OpenApiContact
         {
-            Name = "Contact",
+            Name = "Robin Müller",
             Email = "romuit04@hs-esslingen.de",
             Url = new Uri("https://github.com/RobinTTY/MyCloud")
+        },
+        License = new OpenApiLicense()
+        {
+            Name = "MIT License",
+            Url = new Uri("https://github.com/RobinTTY/MyCloud/blob/master/LICENSE")
         }
     });
 });
@@ -35,6 +42,10 @@ builder.Services.AddApiVersioning(config =>
 });
 
 var app = builder.Build();
+
+// populate initial data
+var db = app.Services.GetService<ApiContext>();
+db.PopulateWithDemoData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
