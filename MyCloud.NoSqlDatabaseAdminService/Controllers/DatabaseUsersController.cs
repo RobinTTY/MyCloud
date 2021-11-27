@@ -6,7 +6,7 @@ using MyCloud.NoSqlDatabaseAdminService.Models;
 namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 
 [ApiController]
-[Route("api/projects/databaseUsers")]
+[Route("api/projects/{id}/[controller]")]
 [ApiVersion("1.0")]
 public class DatabaseUsersController : ControllerBase
 {
@@ -20,9 +20,9 @@ public class DatabaseUsersController : ControllerBase
     }
 
     [HttpGet(Name = "GetUsers")]
-    public ActionResult<List<Project>> Get()
+    public ActionResult<List<DatabaseUser>> Get(Guid id)
     {
-        return _context.Projects;
+        return _context.Users.Where(user => user.ProjectId == id).ToList();
     }
 
     //[HttpGet("{id:guid}", Name = "GetProjectById")]
