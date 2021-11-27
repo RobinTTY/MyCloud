@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSingleton(new ApiContext());
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
+// required to parse JsonPatchDocument
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -45,7 +46,7 @@ var app = builder.Build();
 
 // populate initial data
 var db = app.Services.GetService<ApiContext>();
-db.PopulateWithDemoData();
+db?.PopulateWithDemoData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
