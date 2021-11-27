@@ -19,7 +19,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
 
         public void PopulateWithDemoData()
         {
-            Projects.Add(new Project("VideoStreamPro"));
+            Projects.Add(new Project(Guid.Parse("00000000-0000-0000-0000-000000000000"), "VideoStreamPro", "The new great streaming portal."));
         }
     }
 }
