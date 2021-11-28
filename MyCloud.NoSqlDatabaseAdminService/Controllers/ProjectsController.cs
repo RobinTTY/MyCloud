@@ -6,7 +6,7 @@ using MyCloud.NoSqlDatabaseAdminService.Models;
 namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/projects")]
 [ApiVersion("1.0")]
 public class ProjectsController : ControllerBase
 {
@@ -35,9 +35,9 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpPost(Name = "PostProject")]
-    public ActionResult<Project> Post([FromBody] string projectName)
+    public ActionResult<Project> Post([FromBody] ProjectPostParameters postParameters)
     {
-        var project = new Project(projectName);
+        var project = new Project(postParameters.Name, postParameters.Description);
         _context.Projects.Add(project);
         return CreatedAtAction(nameof(GetById), new { id = project.Id } , project);
     }
@@ -69,5 +69,11 @@ public class ProjectsController : ControllerBase
         }
 
         return NotFound();
+    }
+
+    public class ProjectPostParameters
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
