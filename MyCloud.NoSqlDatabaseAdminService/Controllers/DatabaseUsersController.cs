@@ -6,7 +6,7 @@ using MyCloud.NoSqlDatabaseAdminService.Models;
 namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 
 [ApiController]
-[Route("api/projects/{id}/[controller]")]
+[Route("api/projects/{id}/databaseUsers")]
 [ApiVersion("1.0")]
 public class DatabaseUsersController : ControllerBase
 {
@@ -25,49 +25,51 @@ public class DatabaseUsersController : ControllerBase
         return _context.Users.Where(user => user.ProjectId == id).ToList();
     }
 
-    //[HttpGet("{id:guid}", Name = "GetProjectById")]
-    //public ActionResult<Project> GetById(Guid id)
-    //{
-    //    var project = _context.Projects.FirstOrDefault(project => project.Id == id);
-    //    if (project != null)
-    //        return project;
-    //    return NotFound();
-    //}
+    [HttpGet("{username}", Name = "GetUserByName")]
+    public ActionResult<DatabaseUser> GetById(string username)
+    {
+        var user = _context.Users.FirstOrDefault(user => user.Username == username);
+        if (user != null)
+            return user;
+        return NotFound();
+    }
 
-    //[HttpPost(Name = "PostProject")]
-    //public ActionResult<Project> Post([FromBody] string projectName)
-    //{
-    //    var project = new Project(projectName);
-    //    _context.Projects.Add(project);
-    //    return CreatedAtAction(nameof(GetById), new { id = project.Id }, project);
-    //}
+    [HttpPost(Name = "PostUser")]
+    public ActionResult<DatabaseUser> Post(Guid id, [FromBody] DatabaseUser addUser)
+    {
+        if (_context.Users.Exists(user => user.Username == addUser.Username && addUser.ProjectId == id))
+            // https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists
+            return Conflict();
+        _context.Users.Add(addUser);
+        return CreatedAtAction(nameof(GetById), new { id = id, username = addUser.Username }, addUser);
+    }
 
-    //[HttpDelete("{id:guid}", Name = "DeleteProject")]
-    //public ActionResult DeleteById(Guid id)
-    //{
-    //    var project = _context.Projects.FirstOrDefault(project => project.Id == id);
-    //    if (project != null)
-    //    {
-    //        _context.Projects.Remove(project);
-    //        // HTTP 204 No Content: The server successfully processed the request, but is not returning any content
-    //        // https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#:~:text=A%20successful%20response%20SHOULD%20be%20200
-    //        return NoContent();
-    //    }
+    [HttpDelete("{username}", Name = "DeleteUser")]
+    public ActionResult DeleteById(Guid id, string username)
+    {
+        var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
+        if (user != null)
+        {
+            _context.Users.Remove(user);
+            // HTTP 204 No Content: The server successfully processed the request, but is not returning any content
+            // https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#:~:text=A%20successful%20response%20SHOULD%20be%20200
+            return NoContent();
+        }
 
-    //    return NotFound();
-    //}
+        return NotFound();
+    }
 
-    //[HttpPatch("{id:guid}", Name = "PatchProject")]
-    //public ActionResult<Project> Patch(Guid id, [FromBody] JsonPatchDocument<Project> patchParameters)
-    //{
-    //    var project = _context.Projects.FirstOrDefault(project => project.Id == id);
-    //    if (project != null)
-    //    {
-    //        patchParameters.Operations.RemoveAll(op => op.path is not ("/name" or "/description"));
-    //        patchParameters.ApplyTo(project);
-    //        return Ok(project);
-    //    }
+    [HttpPatch("{username}", Name = "PatchUser")]
+    public ActionResult<DatabaseUser> Patch(Guid id, string username, [FromBody] JsonPatchDocument<DatabaseUser> patchParameters)
+    {
+        var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
+        if (user != null)
+        {
+            patchParameters.Operations.RemoveAll(op => op.path is not "/projectId");
+            patchParameters.ApplyTo(user);
+            return Ok(user);
+        }
 
-    //    return NotFound();
-    //}
+        return NotFound();
+    }
 }
