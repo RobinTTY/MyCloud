@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton(new ApiContext());
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddRouting();
 builder.Services.AddControllers().AddNewtonsoftJson();
 // required to parse JsonPatchDocument
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
