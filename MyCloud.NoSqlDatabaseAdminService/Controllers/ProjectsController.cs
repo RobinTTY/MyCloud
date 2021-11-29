@@ -64,8 +64,8 @@ public class ProjectsController : ControllerBase
         if (project != null)
         {
             patchParameters.Operations.RemoveAll(op => op.path is not ("/name" or "/description"));
-            patchParameters.ApplyTo(project);
-            return Ok(project);
+            patchParameters.ApplyTo(project, ModelState);
+            return !ModelState.IsValid ? ValidationProblem(ModelState) : Ok(project);
         }
 
         return NotFound();
