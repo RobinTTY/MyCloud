@@ -12,12 +12,14 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
         public List<Project> Projects { get; set; }
         public List<User> Users { get; set; }
         public List<Invoice> Invoices { get; set; }
-        
+        public List<Cluster> Clusters { get; set; }
+
         public ApiContext()
         {
             Projects = new List<Project>();
             Users = new List<User>();
             Invoices = new List<Invoice>();
+            Clusters = new List<Cluster>();
         }
 
 
@@ -68,6 +70,41 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 Created = new DateTime(2021, 10, 1, 0, 0, 19),
                 Updated = new DateTime(2021, 10, 21, 14, 11, 32),
                 Status = InvoiceStatus.Paid
+            });
+            // Clusters
+            Clusters.Add(new Cluster()
+            {
+                Id = new Guid("b4c5634d-2576-4996-9244-69a9aa429ffe"),
+                ProjectId = projectGuid,
+                Name = "MyDbCluster",
+                Configuration = new ClusterConfiguration
+                {
+                    AutoScalingEnabled = true,
+                    BackupEnabled = true,
+                    DiskSizeGb = 2000,
+                    NumberOfNodes = 3
+                },
+                RegionConfiguration = new List<RegionConfiguration>
+                {
+                    new()
+                    {
+                        Region = "eu-central-1",
+                        Priority = 10
+                    },
+                    new()
+                    {
+                        Region = "us-west-2",
+                        Priority = 9
+                    },
+                    new()
+                    {
+                        Region = "ap-northeast-1",
+                        Priority = 9
+                    }
+                },
+                ConnectionString = "cluster://node1.example.com:32020,node2.example.com:32020,node3.example.com:32020",
+                CreatedDate = DateTime.Now,
+                Version = new Version(1,4,2,0)
             });
         }
     }
