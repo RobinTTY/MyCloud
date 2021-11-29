@@ -19,21 +19,37 @@ public class DatabaseUsersController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get all the users of a project.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet(Name = "GetUsers")]
     public ActionResult<List<DatabaseUser>> Get(Guid id)
     {
         return _context.Users.Where(user => user.ProjectId == id).ToList();
     }
 
+    /// <summary>
+    /// Get a specific user of a project.
+    /// </summary>
+    /// <param name="username">The username of the user to get.</param>
+    /// <returns></returns>
     [HttpGet("{username}", Name = "GetUserByName")]
-    public ActionResult<DatabaseUser> GetById(string username)
+    public ActionResult<DatabaseUser> GetById(Guid id, string username)
     {
-        var user = _context.Users.FirstOrDefault(user => user.Username == username);
+        var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
         if (user != null)
             return user;
         return NotFound();
     }
 
+    /// <summary>
+    /// Create a user in the project.
+    /// </summary>
+    /// <param name="id">The id of the project to create the user for.</param>
+    /// <param name="addUser">The user to create.</param>
+    /// <returns></returns>
     [HttpPost(Name = "PostUser")]
     public ActionResult<DatabaseUser> Post(Guid id, [FromBody] DatabaseUser addUser)
     {
@@ -44,6 +60,12 @@ public class DatabaseUsersController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = id, username = addUser.Username }, addUser);
     }
 
+    /// <summary>
+    /// Removes a user from the project.
+    /// </summary>
+    /// <param name="id">The project id the user belongs to.</param>
+    /// <param name="username">The name of the user to remove.</param>
+    /// <returns></returns>
     [HttpDelete("{username}", Name = "DeleteUser")]
     public ActionResult DeleteById(Guid id, string username)
     {
@@ -59,13 +81,20 @@ public class DatabaseUsersController : ControllerBase
         return NotFound();
     }
 
+    /// <summary>
+    /// Updates a user record.
+    /// </summary>
+    /// <param name="id">The project id the user belongs to.</param>
+    /// <param name="username">The name of the user to update.</param>
+    /// <param name="patchParameters">The updated record.</param>
+    /// <returns></returns>
     [HttpPatch("{username}", Name = "PatchUser")]
     public ActionResult<DatabaseUser> Patch(Guid id, string username, [FromBody] JsonPatchDocument<DatabaseUser> patchParameters)
     {
         var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
         if (user != null)
         {
-            patchParameters.Operations.RemoveAll(op => op.path is not "/projectId");
+            patchParameters.Operations.RemoveAll(op => op.path is "/projectId");
             patchParameters.ApplyTo(user);
             return Ok(user);
         }
