@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MyCloud.NoSqlDatabaseAdminService.Core;
 using MyCloud.NoSqlDatabaseAdminService.Models;
 
 namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 
 [ApiController]
-[Route("api/projects/{id}/databaseUsers")]
+[Route("api/projects/{id}/users")]
 [ApiVersion("1.0")]
-public class DatabaseUsersController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly ApiContext _context;
     private readonly ILogger<ProjectsController> _logger;
 
-    public DatabaseUsersController(ApiContext context, ILogger<ProjectsController> logger)
+    public UsersController(ApiContext context, ILogger<ProjectsController> logger)
     {
         _context = context;
         _logger = logger;
@@ -22,10 +23,10 @@ public class DatabaseUsersController : ControllerBase
     /// <summary>
     /// Get all the users of a project.
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">The id of the project the users are assigned to.</param>
     /// <returns></returns>
     [HttpGet(Name = "GetUsers")]
-    public ActionResult<List<DatabaseUser>> Get(Guid id)
+    public ActionResult<List<User>> Get(Guid id)
     {
         return _context.Users.Where(user => user.ProjectId == id).ToList();
     }
@@ -36,7 +37,7 @@ public class DatabaseUsersController : ControllerBase
     /// <param name="username">The username of the user to get.</param>
     /// <returns></returns>
     [HttpGet("{username}", Name = "GetUserByName")]
-    public ActionResult<DatabaseUser> GetById(Guid id, string username)
+    public ActionResult<User> GetById(Guid id, string username)
     {
         var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
         if (user != null)
@@ -51,7 +52,7 @@ public class DatabaseUsersController : ControllerBase
     /// <param name="addUser">The user to create.</param>
     /// <returns></returns>
     [HttpPost(Name = "PostUser")]
-    public ActionResult<DatabaseUser> Post(Guid id, [FromBody] DatabaseUser addUser)
+    public ActionResult<User> Post(Guid id, [FromBody] User addUser)
     {
         if (_context.Users.Exists(user => user.Username == addUser.Username && addUser.ProjectId == id))
             // https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists
@@ -89,14 +90,14 @@ public class DatabaseUsersController : ControllerBase
     /// <param name="patchParameters">The updated record.</param>
     /// <returns></returns>
     [HttpPatch("{username}", Name = "PatchUser")]
-    public ActionResult<DatabaseUser> Patch(Guid id, string username, [FromBody] JsonPatchDocument<DatabaseUser> patchParameters)
+    public ActionResult<User> Patch(Guid id, string username, [FromBody] JsonPatchDocument<User> patchParameters, [FromServices] IOptions<ApiBehaviorOptions> apiBehaviorOptions)
     {
         var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
         if (user != null)
         {
             patchParameters.Operations.RemoveAll(op => op.path is "/projectId");
-            patchParameters.ApplyTo(user);
-            return Ok(user);
+            patchParameters.ApplyTo(user, ModelState);
+            return !ModelState.IsValid ? ValidationProblem(ModelState) : Ok(user);
         }
 
         return NotFound();

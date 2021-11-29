@@ -1,6 +1,6 @@
 ﻿namespace MyCloud.NoSqlDatabaseAdminService.Models
 {
-    public class DatabaseUser
+    public class User
     {
         /// <summary>
         /// The name of the user.
@@ -23,9 +23,9 @@
         /// </summary>
         public List<string>? Scopes { get; set; }
 
-        public DatabaseUser(){}
+        public User(){}
 
-        public DatabaseUser(string? username, List<Role>? roles, Guid projectId, List<string>? scopes)
+        public User(string? username, List<Role>? roles, Guid projectId, List<string>? scopes)
         {
             Username = username;
             Roles = roles;
