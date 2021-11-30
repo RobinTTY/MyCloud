@@ -12,6 +12,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 [ApiController]
 [Route("api/projects")]
 [ApiVersion("1.0")]
+[ApiKeyAuth]
 [SwaggerTag("Projects organize database resources within a common scope")]
 public class ProjectsController : ControllerBase
 {

@@ -12,6 +12,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 [ApiController]
 [Route("api/projects/{id}/users")]
 [ApiVersion("1.0")]
+[ApiKeyAuth]
 [SwaggerTag("User accounts provide access to clusters.")]
 public class UsersController : ControllerBase
 {

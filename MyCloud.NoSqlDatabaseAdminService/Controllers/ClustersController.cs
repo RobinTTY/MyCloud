@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MyCloud.NoSqlDatabaseAdminService.Core;
 using MyCloud.NoSqlDatabaseAdminService.Models;
@@ -12,6 +13,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers
     [ApiController]
     [Route("api/projects/{id}/clusters")]
     [ApiVersion("1.0")]
+    [ApiKeyAuth]
     [SwaggerTag("Clusters distribute your data across multiple nodes.")]
     public class ClustersController : ControllerBase
     {

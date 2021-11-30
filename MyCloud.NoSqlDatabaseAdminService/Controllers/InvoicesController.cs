@@ -11,6 +11,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers
     [ApiController]
     [Route("api/projects/{id}/invoices")]
     [ApiVersion("1.0")]
+    [ApiKeyAuth]
     [SwaggerTag("Invoices state the amount owed due to the usage of resources.")]
     public class InvoicesController : ControllerBase
     {
