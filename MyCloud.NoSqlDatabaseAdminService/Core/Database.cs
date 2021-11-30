@@ -2,19 +2,32 @@
 
 namespace MyCloud.NoSqlDatabaseAdminService.Core
 {
-    public interface IApiContext
+    /// <summary>
+    /// In-memory "database" for demo data.
+    /// </summary>
+    public class Database
     {
-        void PopulateWithDemoData();
-    }
-
-    public class ApiContext : IApiContext
-    {
+        /// <summary>
+        /// Contains the existing <see cref="Project"/>s.
+        /// </summary>
         public List<Project> Projects { get; set; }
+        /// <summary>
+        /// Contains the existing <see cref="User"/>s.
+        /// </summary>
         public List<User> Users { get; set; }
+        /// <summary>
+        /// Contains the existing <see cref="Invoice"/>s.
+        /// </summary>
         public List<Invoice> Invoices { get; set; }
+        /// <summary>
+        /// Contains the existing <see cref="Cluster"/>s.
+        /// </summary>
         public List<Cluster> Clusters { get; set; }
 
-        public ApiContext()
+        /// <summary>
+        /// Creates a new instance of <see cref="Database"/>.
+        /// </summary>
+        public Database()
         {
             Projects = new List<Project>();
             Users = new List<User>();
@@ -22,10 +35,17 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
             Clusters = new List<Cluster>();
         }
 
-
+        /// <summary>
+        /// Populates the database with demo data.
+        /// </summary>
         public void PopulateWithDemoData()
         {
-            var projectGuid = Guid.Parse("97a1dc68-0809-4b7b-8b5f-97020925c19b");
+            var projectGuid = new Guid("97a1dc68-0809-4b7b-8b5f-97020925c19b");
+            var mainClusterGuid = new Guid("b4c5634d-2576-4996-9244-69a9aa429ffe");
+            var secondaryClusterGuid = new Guid("2e64769e-62db-4beb-9bfc-0dfef91ade78");
+            var invoice1Guid = new Guid("1baff4d6-adfd-47c0-8b05-9144da4ef9b5");
+            var invoice2Guid = new Guid("d514ec00-4a34-4035-86d0-fea096608ac1");
+
             // Projects
             Projects.Add(new Project(projectGuid, "VideoStreamPro", "The new great streaming portal."));
             // Users
@@ -36,9 +56,9 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 ProjectId = projectGuid,
                 Roles = new List<Role>
                 {
-                    new("MyDb", "read"),
-                    new("MyDb", "write"),
-                    new("MySecondDb", "read")
+                    new(mainClusterGuid, "read"),
+                    new(mainClusterGuid, "write"),
+                    new(secondaryClusterGuid, "read")
                 },
                 Scopes = new List<string>
                 {
@@ -49,7 +69,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
             // Invoices
             Invoices.Add(new Invoice
             {
-                Id = new Guid("1baff4d6-adfd-47c0-8b05-9144da4ef9b5"),
+                Id = invoice1Guid,
                 ProjectId = projectGuid,
                 AmountBilledCents = 7146,
                 AmountPaidCents = 0,
@@ -61,7 +81,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
             });
             Invoices.Add(new Invoice
             {
-                Id = new Guid("d514ec00-4a34-4035-86d0-fea096608ac1"),
+                Id = invoice2Guid,
                 ProjectId = projectGuid,
                 AmountBilledCents = 8371,
                 AmountPaidCents = 8371,
@@ -72,9 +92,9 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 Status = InvoiceStatus.Paid
             });
             // Clusters
-            Clusters.Add(new Cluster()
+            Clusters.Add(new Cluster
             {
-                Id = new Guid("b4c5634d-2576-4996-9244-69a9aa429ffe"),
+                Id = mainClusterGuid,
                 ProjectId = projectGuid,
                 Name = "MyDbCluster",
                 Configuration = new ClusterConfiguration
@@ -104,7 +124,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 },
                 ConnectionString = "cluster://node1.example.com:32020,node2.example.com:32020,node3.example.com:32020",
                 CreatedDate = DateTime.Now,
-                Version = new Version(1,4,2,0)
+                Version = new SoftwareVersion(1,4,2)
             });
         }
     }

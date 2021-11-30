@@ -1,27 +1,37 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using MyCloud.NoSqlDatabaseAdminService.Core;
 using MyCloud.NoSqlDatabaseAdminService.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyCloud.NoSqlDatabaseAdminService.Controllers;
 
+/// <summary>
+/// Provides access to <see cref="User"/> resources.
+/// </summary>
 [ApiController]
 [Route("api/projects/{id}/users")]
 [ApiVersion("1.0")]
+[SwaggerTag("User accounts provide access to clusters.")]
 public class UsersController : ControllerBase
 {
-    private readonly ApiContext _context;
+    private readonly Database _context;
     private readonly ILogger<ProjectsController> _logger;
 
-    public UsersController(ApiContext context, ILogger<ProjectsController> logger)
+    /// <summary>
+    /// Creates new instance of <see cref="UsersController"/>.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="logger"></param>
+    // TODO: Add id to user
+    public UsersController(Database context, ILogger<ProjectsController> logger)
     {
         _context = context;
         _logger = logger;
     }
 
     /// <summary>
-    /// Get all the users of a project.
+    /// Get all users of a project.
     /// </summary>
     /// <param name="id">The id of the project the users are assigned to.</param>
     /// <returns></returns>
@@ -32,8 +42,9 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Get a specific user of a project.
+    /// Get a user of a project.
     /// </summary>
+    /// <param name="id">The id of the project the users are assigned to.</param>
     /// <param name="username">The username of the user to get.</param>
     /// <returns></returns>
     [HttpGet("{username}", Name = "GetUserByName")]
@@ -46,7 +57,7 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Create a user in the project.
+    /// Create a user in a project.
     /// </summary>
     /// <param name="id">The id of the project to create the user for.</param>
     /// <param name="addUser">The user to create.</param>
@@ -62,7 +73,7 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Removes a user from the project.
+    /// Remove a user from a project.
     /// </summary>
     /// <param name="id">The project id the user belongs to.</param>
     /// <param name="username">The name of the user to remove.</param>
@@ -83,14 +94,14 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Updates a user record.
+    /// Updates a user record in a project.
     /// </summary>
     /// <param name="id">The project id the user belongs to.</param>
     /// <param name="username">The name of the user to update.</param>
     /// <param name="patchParameters">The updated record.</param>
     /// <returns></returns>
     [HttpPatch("{username}", Name = "PatchUser")]
-    public ActionResult<User> Patch(Guid id, string username, [FromBody] JsonPatchDocument<User> patchParameters, [FromServices] IOptions<ApiBehaviorOptions> apiBehaviorOptions)
+    public ActionResult<User> Patch(Guid id, string username, [FromBody] JsonPatchDocument<User> patchParameters)
     {
         var user = _context.Users.FirstOrDefault(user => user.Username == username && user.ProjectId == id);
         if (user != null)
