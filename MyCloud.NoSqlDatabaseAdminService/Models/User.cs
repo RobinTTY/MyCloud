@@ -1,4 +1,6 @@
-﻿namespace MyCloud.NoSqlDatabaseAdminService.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyCloud.NoSqlDatabaseAdminService.Models
 {
     /// <summary>
     /// A database user.
@@ -6,14 +8,20 @@
     public class User
     {
         /// <summary>
+        /// The unique id of the user.
+        /// </summary>
+        public Guid Id { get; set; }
+        /// <summary>
         /// The name of the user.
         /// </summary>
         /// <example>Robin</example>
+        [Required]
         public string? Username { get; set; }
         /// <summary>
         /// The user password used for authentication.
         /// </summary>
         /// <example>Secret</example>
+        [Required]
         public string? Password { get; set; }
         /// <summary>
         /// Array of this user's roles.  A role allows the user to perform particular actions on the specified database.
@@ -27,26 +35,31 @@
         /// <summary>
         /// List of databases/clusters that this user can access.
         /// </summary>
-        public List<string>? Scopes { get; set; }
+        public List<Guid>? Scopes { get; set; }
 
         /// <summary>
         /// Creates a new instance of <see cref="User"/>.
         /// </summary>
-        public User(){}
-
-        /// <summary>
-        /// Creates a new instance of <see cref="User"/>.
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="roles"></param>
-        /// <param name="projectId"></param>
-        /// <param name="scopes"></param>
-        public User(string? username, List<Role>? roles, Guid projectId, List<string>? scopes)
+        public User()
         {
-            Username = username;
-            Roles = roles;
-            ProjectId = projectId;
-            Scopes = scopes;
+            if(Id == Guid.Empty)
+                Id = Guid.NewGuid();
+            Roles ??= new List<Role>();
+            Scopes ??= new List<Guid>();
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="User"/>
+        /// </summary>
+        /// <param name="user"></param>
+        public User(User user)
+        {
+            Id = Guid.NewGuid();
+            Username = user.Username;
+            Password = user.Password;
+            Roles = user.Roles;
+            ProjectId = user.ProjectId;
+            Scopes = user.Scopes;
         }
     }
 
