@@ -31,6 +31,9 @@ public class ApiKeyAuthAttribute : Attribute, IAsyncActionFilter
             return;
         }
 
+        // TODO: content encoding doesn't work, investigate, fake for now
+        context.HttpContext.Response.Headers.Add("Content-Encoding", "gzip, br");
+
         await next();
     }
 }
