@@ -41,6 +41,8 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
         public void PopulateWithDemoData()
         {
             var projectGuid = new Guid("97a1dc68-0809-4b7b-8b5f-97020925c19b");
+            var mainUserGuid = new Guid("6a630182-c38e-4311-9995-c0178f59e254");
+            var secondaryUserGuid = new Guid("03080c12-59bc-4b62-b377-7f1ca5290d88");
             var mainClusterGuid = new Guid("b4c5634d-2576-4996-9244-69a9aa429ffe");
             var secondaryClusterGuid = new Guid("2e64769e-62db-4beb-9bfc-0dfef91ade78");
             var invoice1Guid = new Guid("1baff4d6-adfd-47c0-8b05-9144da4ef9b5");
@@ -51,6 +53,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
             // Users
             Users.Add(new User
             {
+                Id = mainUserGuid,
                 Username = "Robin",
                 Password = "MySuperSecretPassword",
                 ProjectId = projectGuid,
@@ -60,10 +63,28 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                     new(mainClusterGuid, "write"),
                     new(secondaryClusterGuid, "read")
                 },
-                Scopes = new List<string>
+                Scopes = new List<Guid>
                 {
-                    "MyDb",
-                    "MySecondDb"
+                    mainClusterGuid,
+                    secondaryClusterGuid
+                }
+            });
+            Users.Add(new User
+            {
+                Id = secondaryUserGuid,
+                Username = "Tom",
+                Password = "password123",
+                ProjectId = projectGuid,
+                Roles = new List<Role>
+                {
+                    new(mainClusterGuid, "read"),
+                    new(mainClusterGuid, "write"),
+                    new(secondaryClusterGuid, "dbOwner")
+                },
+                Scopes = new List<Guid>
+                {
+                    mainClusterGuid,
+                    secondaryClusterGuid
                 }
             });
             // Invoices
@@ -85,8 +106,8 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 ProjectId = projectGuid,
                 AmountBilledCents = 8371,
                 AmountPaidCents = 8371,
-                BillingPeriodStart = new DateTime(2021, 10, 1, 0, 0, 0),
-                BillingPeriodEnd = new DateTime(2021, 10, 31, 0, 0, 0),
+                BillingPeriodStart = new DateTime(2021, 9, 1, 0, 0, 0),
+                BillingPeriodEnd = new DateTime(2021, 9, 30, 0, 0, 0),
                 Created = new DateTime(2021, 10, 1, 0, 0, 19),
                 Updated = new DateTime(2021, 10, 21, 14, 11, 32),
                 Status = InvoiceStatus.Paid
@@ -125,6 +146,35 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 ConnectionString = "cluster://node1.example.com:32020,node2.example.com:32020,node3.example.com:32020",
                 CreatedDate = DateTime.Now,
                 Version = new SoftwareVersion(1,4,2)
+            });
+            Clusters.Add(new Cluster
+            {
+                Id = new Guid("6bdfeed3-86f0-4ad5-9e6d-2d42dd1b6e90"),
+                ProjectId = projectGuid,
+                Name = "My unwanted Db cluster",
+                Configuration = new ClusterConfiguration
+                {
+                    AutoScalingEnabled = true,
+                    BackupEnabled = false,
+                    DiskSizeGb = 6000,
+                    NumberOfNodes = 4
+                },
+                RegionConfiguration = new List<RegionConfiguration>
+                {
+                    new()
+                    {
+                        Region = "ap-central-1",
+                        Priority = 10
+                    },
+                    new()
+                    {
+                        Region = "us-east-1",
+                        Priority = 9
+                    }
+                },
+                ConnectionString = "cluster://node1.example.com:32020,node2.example.com:32020,node3.example.com:32020,node4.example.com:32020",
+                CreatedDate = DateTime.Now,
+                Version = new SoftwareVersion(1, 5, 0)
             });
         }
     }
