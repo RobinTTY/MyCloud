@@ -43,12 +43,12 @@ public class ProjectsController : ControllerBase
     /// <summary>
     /// Get a project.
     /// </summary>
-    /// <param name="id">The id of the project to get.</param>
+    /// <param name="projectId">The id of the project to get.</param>
     /// <returns>The <see cref="Project"/> with the given id.</returns>
-    [HttpGet("{id:guid}", Name = "GetProjectById")]
-    public ActionResult<Project> GetById(Guid id)
+    [HttpGet("{projectId}", Name = "GetProjectById")]
+    public ActionResult<Project> GetById(Guid projectId)
     {
-        var project = _context.Projects.FirstOrDefault(project => project.Id == id);
+        var project = _context.Projects.FirstOrDefault(project => project.Id == projectId);
         if (project != null)
             return project;
         return NotFound();
@@ -66,18 +66,18 @@ public class ProjectsController : ControllerBase
             return BadRequest();
         var project = new Project(postParameters.Name, postParameters.Description);
         _context.Projects.Add(project);
-        return CreatedAtAction(nameof(GetById), new { id = project.Id } , project);
+        return CreatedAtAction(nameof(GetById), new { projectId = project.Id } , project);
     }
 
     /// <summary>
     /// Delete a project.
     /// </summary>
-    /// <param name="id">The id of the project to delete.</param>
+    /// <param name="projectId">The id of the project to delete.</param>
     /// <returns></returns>
-    [HttpDelete("{id:guid}", Name = "DeleteProject")]
-    public ActionResult DeleteById(Guid id)
+    [HttpDelete("{projectId}", Name = "DeleteProject")]
+    public ActionResult DeleteById(Guid projectId)
     {
-        var project = _context.Projects.FirstOrDefault(project => project.Id == id);
+        var project = _context.Projects.FirstOrDefault(project => project.Id == projectId);
         if (project != null)
         {
             _context.Projects.Remove(project);
@@ -92,13 +92,13 @@ public class ProjectsController : ControllerBase
     /// <summary>
     /// Update a project.
     /// </summary>
-    /// <param name="id">The id of the project to update.</param>
+    /// <param name="projectId">The id of the project to update.</param>
     /// <param name="patchParameters">A <a href="https://datatracker.ietf.org/doc/html/rfc6902">JSON patch document</a> containing the update operations.</param>
     /// <returns></returns>
-    [HttpPatch("{id:guid}", Name = "PatchProject")]
-    public ActionResult<Project> Patch(Guid id, [FromBody] JsonPatchDocument<Project> patchParameters)
+    [HttpPatch("{projectId}", Name = "PatchProject")]
+    public ActionResult<Project> Patch(Guid projectId, [FromBody] JsonPatchDocument<Project> patchParameters)
     {
-        var project = _context.Projects.FirstOrDefault(project => project.Id == id);
+        var project = _context.Projects.FirstOrDefault(project => project.Id == projectId);
         if (project != null)
         {
             patchParameters.Operations.RemoveAll(op => op.path is not ("/name" or "/description"));
