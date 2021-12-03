@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 
 namespace MyCloud.NoSqlDatabaseAdminService.Core;
 
@@ -32,7 +33,13 @@ public class ApiKeyAuthAttribute : Attribute, IAsyncActionFilter
         }
 
         // TODO: content encoding doesn't work, investigate, fake for now
-        context.HttpContext.Response.Headers.Add("Content-Encoding", "gzip, br");
+        if (context.HttpContext.Request.Headers.Contains(
+                new KeyValuePair<string, StringValues>("internal-server-error-demo", "true")))
+        {
+            context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            return;
+        }
+        //context.HttpContext.Response.Headers.Add("Content-Encoding", "gzip, br");
 
         await next();
     }

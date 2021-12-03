@@ -3,6 +3,7 @@
 /// <summary>
 /// A project organizes resources within a common scope.
 /// </summary>
+[Serializable]
 public class Project
 {
     /// <summary>
@@ -25,6 +26,11 @@ public class Project
     /// </summary>
     /// <example>2021-11-30T08:52:43.8249333+01:00</example>
     public DateTime CreatedDate { get; set; }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="Project"/>.
+    /// </summary>
+    public Project(){}
 
     /// <summary>
     /// Creates a new instance of <see cref="Project"/>

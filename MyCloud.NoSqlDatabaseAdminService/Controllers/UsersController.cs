@@ -37,11 +37,13 @@ public class UsersController : ControllerBase
     /// Get all users of a project.
     /// </summary>
     /// <param name="projectId">The id of the project the users are assigned to.</param>
+    /// <param name="offset">Offset, starting with zero, which determines the current page.</param>
+    /// <param name="limit">Number of items that are returned per page.</param>
     /// <returns></returns>
     [HttpGet(Name = "GetUsers")]
-    public ActionResult<List<User>> Get(Guid projectId)
+    public ActionResult<List<User>> Get(Guid projectId, [FromQuery] int offset = 0, [FromQuery] int limit = 500)
     {
-        return _context.Users.Where(user => user.ProjectId == projectId).ToList();
+        return _context.Users.Where(user => user.ProjectId == projectId).Skip(offset * limit).Take(limit).ToList();
     }
 
     /// <summary>

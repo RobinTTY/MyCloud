@@ -5,6 +5,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Models
     /// <summary>
     /// A database user.
     /// </summary>
+    [Serializable]
     public class User
     {
         /// <summary>
@@ -76,6 +77,11 @@ namespace MyCloud.NoSqlDatabaseAdminService.Models
         /// The role that should be applied to the user.
         /// </summary>
         public string RoleName { get; set; }
+
+        /// <summary>
+        /// Create new instance of <see cref="Role"/>
+        /// </summary>
+        public Role(){}
 
         /// <summary>
         /// Creates a new instance of <see cref="Role"/>

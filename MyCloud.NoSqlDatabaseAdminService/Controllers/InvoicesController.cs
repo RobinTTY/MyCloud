@@ -33,11 +33,13 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers
         /// Get all invoices of a project.
         /// </summary>
         /// <param name="projectId">The id of the project the users are assigned to.</param>
+        /// <param name="offset">Offset, starting with zero, which determines the current page.</param>
+        /// <param name="limit">Number of items that are returned per page.</param>
         /// <returns></returns>
         [HttpGet(Name = "GetInvoices")]
-        public ActionResult<List<Invoice>> Get(Guid projectId)
+        public ActionResult<List<Invoice>> Get(Guid projectId, [FromQuery] int offset = 0, [FromQuery] int limit = 500)
         {
-            return _context.Invoices.Where(invoice => invoice.ProjectId == projectId).ToList();
+            return _context.Invoices.Where(invoice => invoice.ProjectId == projectId).Skip(offset * limit).Take(limit).ToList();
         }
 
         /// <summary>

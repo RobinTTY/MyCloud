@@ -41,15 +41,18 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
         public void PopulateWithDemoData()
         {
             var projectGuid = new Guid("97a1dc68-0809-4b7b-8b5f-97020925c19b");
+            var secondaryProjectGuid = new Guid("df164112-aa29-4764-8f93-95233399d024");
             var mainUserGuid = new Guid("6a630182-c38e-4311-9995-c0178f59e254");
             var secondaryUserGuid = new Guid("03080c12-59bc-4b62-b377-7f1ca5290d88");
             var mainClusterGuid = new Guid("b4c5634d-2576-4996-9244-69a9aa429ffe");
             var secondaryClusterGuid = new Guid("2e64769e-62db-4beb-9bfc-0dfef91ade78");
             var invoice1Guid = new Guid("1baff4d6-adfd-47c0-8b05-9144da4ef9b5");
             var invoice2Guid = new Guid("d514ec00-4a34-4035-86d0-fea096608ac1");
+            var invoice3Guid = new Guid("620ba3e6-6667-40be-bad7-50a12b83bc57");
 
             // Projects
             Projects.Add(new Project(projectGuid, "VideoStreamPro", "The new great streaming portal."));
+            Projects.Add(new Project(secondaryProjectGuid, "Project Legacy", "Not available"));
             // Users
             Users.Add(new User
             {
@@ -110,6 +113,18 @@ namespace MyCloud.NoSqlDatabaseAdminService.Core
                 BillingPeriodEnd = new DateTime(2021, 9, 30, 0, 0, 0),
                 Created = new DateTime(2021, 10, 1, 0, 0, 19),
                 Updated = new DateTime(2021, 10, 21, 14, 11, 32),
+                Status = InvoiceStatus.Paid
+            });
+            Invoices.Add(new Invoice
+            {
+                Id = invoice3Guid,
+                ProjectId = secondaryProjectGuid,
+                AmountBilledCents = 18046,
+                AmountPaidCents = 18046,
+                BillingPeriodStart = new DateTime(2020, 2, 1, 0, 0, 0),
+                BillingPeriodEnd = new DateTime(2020, 2, 28, 0, 0, 0),
+                Created = new DateTime(2020, 3, 1, 0, 0, 32),
+                Updated = new DateTime(2020, 3, 23, 17, 6, 49),
                 Status = InvoiceStatus.Paid
             });
             // Clusters

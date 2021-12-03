@@ -3,6 +3,7 @@
 /// <summary>
 /// An invoice stating the amounts owed by a customer.
 /// </summary>
+[Serializable]
 public class Invoice
 {
     /// <summary>
@@ -50,6 +51,11 @@ public class Invoice
     /// </summary>
     /// <example>0</example>
     public InvoiceStatus Status { get; set; }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="Invoice"/>.
+    /// </summary>
+    public Invoice(){}
 }
 
 /// <summary>

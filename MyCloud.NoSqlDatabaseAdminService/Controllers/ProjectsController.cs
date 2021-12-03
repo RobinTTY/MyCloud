@@ -33,11 +33,13 @@ public class ProjectsController : ControllerBase
     /// <summary>
     /// Get all projects.
     /// </summary>
+    /// <param name="offset">Offset, starting with zero, which determines the current page.</param>
+    /// <param name="limit">Number of items that are returned per page.</param>
     /// <returns></returns>
     [HttpGet(Name = "GetProjects")]
-    public ActionResult<List<Project>> Get()
+    public ActionResult<List<Project>> Get([FromQuery] int offset = 0, [FromQuery] int limit = 500)
     {
-        return _context.Projects;
+        return _context.Projects.Skip(offset * limit).Take(limit).ToList();
     }
 
     /// <summary>
@@ -66,7 +68,7 @@ public class ProjectsController : ControllerBase
             return BadRequest();
         var project = new Project(postParameters.Name, postParameters.Description);
         _context.Projects.Add(project);
-        return CreatedAtAction(nameof(GetById), new { projectId = project.Id } , project);
+        return CreatedAtAction(nameof(GetById), new { projectId = project.Id }, project);
     }
 
     /// <summary>
@@ -78,6 +80,19 @@ public class ProjectsController : ControllerBase
     public ActionResult DeleteById(Guid projectId)
     {
         var project = _context.Projects.FirstOrDefault(project => project.Id == projectId);
+        var unresolvedResourcesExist = _context.Users.Any(user => user.ProjectId == projectId) || _context.Clusters.Any(cluster => cluster.ProjectId == projectId) || _context.Invoices.Where(invoice => invoice.ProjectId == projectId).Any(invoice => invoice.Status != InvoiceStatus.Paid);
+        if (unresolvedResourcesExist)
+        {
+            return Conflict(new
+            {
+                type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.8",
+                title = "The project still has resources assigned to it or you have unpaid invoices. Resolve these issues to delete the project.",
+                status = StatusCodes.Status409Conflict,
+                traceId = Guid.NewGuid()
+            });
+        }
+
+
         if (project != null)
         {
             _context.Projects.Remove(project);
@@ -98,6 +113,11 @@ public class ProjectsController : ControllerBase
     [HttpPatch("{projectId}", Name = "PatchProject")]
     public ActionResult<Project> Patch(Guid projectId, [FromBody] JsonPatchDocument<Project> patchParameters)
     {
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
         var project = _context.Projects.FirstOrDefault(project => project.Id == projectId);
         if (project != null)
         {

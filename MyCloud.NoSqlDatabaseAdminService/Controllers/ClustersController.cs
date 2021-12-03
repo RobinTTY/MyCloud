@@ -34,6 +34,8 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers
         /// Get all clusters of a project.
         /// </summary>
         /// <param name="projectId">The id of the project the clusters are assigned to.</param>
+        /// <param name="offset">Offset, starting with zero, which determines the current page.</param>
+        /// <param name="limit">Number of items that are returned per page.</param>
         /// <returns></returns>
         /// <response code="200">Clusters retrieved</response>
         /// <response code="400">The request was unacceptable, due to a malformed id.</response>
@@ -44,9 +46,9 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<List<Cluster>> Get(Guid projectId)
+        public ActionResult<List<Cluster>> Get(Guid projectId, [FromQuery] int offset = 0, [FromQuery] int limit = 500)
         {
-            return _context.Clusters.Where(cluster => cluster.ProjectId == projectId).ToList();
+            return _context.Clusters.Where(cluster => cluster.ProjectId == projectId).Skip(offset * limit).Take(limit).ToList();
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Controllers
         /// <param name="projectId">The id of the project to create the cluster for.</param>
         /// <param name="addCluster">The cluster to create.</param>
         /// <returns></returns>
-        /// <response code="200">Cluster created</response>
+        /// <response code="201">Cluster created</response>
         /// <response code="400">The request was unacceptable, due to a malformed id.</response>        // TODO: only id or also body?
         /// <response code="401">No valid API key provided</response>
         /// <response code="500">The server encountered an error while processing your request</response>

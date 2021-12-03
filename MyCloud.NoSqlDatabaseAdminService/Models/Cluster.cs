@@ -6,6 +6,7 @@ namespace MyCloud.NoSqlDatabaseAdminService.Models
     /// <summary>
     /// A cluster of database servers, containing x nodes.
     /// </summary>
+    [Serializable]
     public class Cluster
     {
         /// <summary>
@@ -128,6 +129,11 @@ namespace MyCloud.NoSqlDatabaseAdminService.Models
         /// </summary>
         /// <example>true</example>
         public bool BackupEnabled { get; init; } = true;
+
+        /// <summary>
+        /// Creates new instance of <see cref="ClusterConfiguration"/>
+        /// </summary>
+        public ClusterConfiguration() { }
     }
 
     /// <summary>
@@ -147,6 +153,11 @@ namespace MyCloud.NoSqlDatabaseAdminService.Models
         /// </summary>
         /// <example>7</example>
         public uint Priority { get; set; } = 10;
+
+        /// <summary>
+        /// Creates new instance of <see cref="RegionConfiguration"/>
+        /// </summary>
+        public RegionConfiguration() { }
     }
 
     /// <summary>
@@ -169,6 +180,11 @@ namespace MyCloud.NoSqlDatabaseAdminService.Models
         /// </summary>
         /// <example>0</example>
         public uint Patch { get; set; }
+
+        /// <summary>
+        /// Creates new instance of <see cref="SoftwareVersion"/>
+        /// </summary>
+        public SoftwareVersion() { }
 
         /// <summary>
         /// Creates a new instance of <see cref="SoftwareVersion"/>.
