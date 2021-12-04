@@ -1,0 +1,1152 @@
+{
+	"info": {
+		"_postman_id": "8515dee1-1258-43e6-adf6-a79fbce48350",
+		"name": "MyCloud.NoSqlDatabaseAdminService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "General",
+			"item": [
+				{
+					"name": "SwaggerSchema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7118/swagger/index.html",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7118",
+							"path": [
+								"swagger",
+								"index.html"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "projects",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "api-version",
+								"value": "1.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects?limit=1&offset=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My New Project\",\r\n    \"description\": \"My revolutionary idea.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;q=0.8,application/xml;q=0.9",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b",
+									"type": "string",
+									"description": "\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"path\": \"/name\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"My new project name\"\r\n  },\r\n  {\r\n    \"path\": \"/description\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"test\"\r\n  },\r\n  {\r\n    \"path\": \"/test\",\r\n    \"op\": \"add\",\r\n    \"value\": \"wow\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "df164112-aa29-4764-8f93-95233399d024"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DatabaseUsers",
+			"item": [
+				{
+					"name": "projects/{id}/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"users"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Alice\",\r\n    \"password\": \"$F(#>_+@2.2U2en?\",\r\n    \"roles\": [\r\n        {\r\n            \"clusterId\": \"2e64769e-62db-4beb-9bfc-0dfef91ade78\",\r\n            \"roleName\": \"read\"\r\n        },\r\n        {\r\n            \"clusterId\": \"2e64769e-62db-4beb-9bfc-0dfef91ade78\",\r\n            \"roleName\": \"write\"\r\n        },\r\n        {\r\n            \"clusterId\": \"2e64769e-62db-4beb-9bfc-0dfef91ade78\",\r\n            \"roleName\": \"dbOwner\"\r\n        }\r\n    ],\r\n    \"scopes\": [\r\n        \"2e64769e-62db-4beb-9bfc-0dfef91ade78\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"users"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/users/{username}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "userId",
+									"value": "6a630182-c38e-4311-9995-c0178f59e254"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/users/{username}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"path\": \"/roles/2/roleName\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"execute\"\r\n  },\r\n  {\r\n    \"path\": \"/password\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"RobinsNewPassword\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "userId",
+									"value": "6a630182-c38e-4311-9995-c0178f59e254"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/users/{username}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "userId",
+									"value": "6a630182-c38e-4311-9995-c0178f59e254"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invoices",
+			"item": [
+				{
+					"name": "projects/{id}/invoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/invoices",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"invoices"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/invoices/{invoiceId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/invoices/:invoiceId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"invoices",
+								":invoiceId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "invoiceId",
+									"value": "d514ec00-4a34-4035-86d0-fea096608ac1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clusters",
+			"item": [
+				{
+					"name": "projects/{id}/clusters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/clusters",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"clusters"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/clusters",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Application Database Server\",\r\n  \"connectionString\": \"cluster://node1.app.com:32020,node2.app.com:32020\",\r\n  \"version\": {\r\n    \"major\": 1,\r\n    \"minor\": 2,\r\n    \"patch\": 0\r\n  },\r\n  \"configuration\": {\r\n    \"numberOfNodes\": 2,\r\n    \"diskSizeGb\": 1000,\r\n    \"autoScalingEnabled\": true,\r\n    \"backupEnabled\": true\r\n  },\r\n  \"regionConfiguration\": [\r\n    {\r\n      \"region\": \"eu-west-1\",\r\n      \"priority\": 10\r\n    },\r\n    {\r\n      \"region\": \"eu-north-1\",\r\n      \"priority\": 9\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/clusters",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"clusters"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/clusters/{clusterId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/clusters/:clusterId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"clusters",
+								":clusterId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "clusterId",
+									"value": "b4c5634d-2576-4996-9244-69a9aa429ffe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/clusters/{clusterId}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"path\": \"/configuration/diskSizeGb\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"3000\"\r\n  },\r\n  {\r\n    \"path\": \"/regionConfiguration/0/region\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"ap-west-1\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/clusters/:clusterId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"clusters",
+								":clusterId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "clusterId",
+									"value": "b4c5634d-2576-4996-9244-69a9aa429ffe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects/{id}/clusters/{clusterId}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects/:id/clusters/:clusterId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects",
+								":id",
+								"clusters",
+								":clusterId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+								},
+								{
+									"key": "clusterId",
+									"value": "6bdfeed3-86f0-4ad5-9e6d-2d42dd1b6e90"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Workflow",
+			"item": [
+				{
+					"name": "Request types (project)",
+					"item": [
+						{
+							"name": "Get projects",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "api-version",
+										"value": "1.0",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one project",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;q=0.8,application/xml;q=0.9",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b",
+											"type": "string",
+											"description": "\n"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a project",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My New Project\",\r\n    \"description\": \"My revolutionary idea.\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a project",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"path\": \"/name\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"My new project name\"\r\n  },\r\n  {\r\n    \"path\": \"/description\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"test\"\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a project",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "df164112-aa29-4764-8f93-95233399d024"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Pagination",
+					"item": [
+						{
+							"name": "Get users with pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id/users?limit=1&offset=1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id",
+										"users"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "1"
+										},
+										{
+											"key": "offset",
+											"value": "1"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Content Negotiation",
+					"item": [
+						{
+							"name": "Get invoices as XML",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;q=0.8,application/xml;q=0.9",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id/invoices/:invoiceId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id",
+										"invoices",
+										":invoiceId"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+										},
+										{
+											"key": "invoiceId",
+											"value": "d514ec00-4a34-4035-86d0-fea096608ac1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "API-Versioning",
+					"item": [
+						{
+							"name": "Get clusters with unsupported version",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "api-version",
+										"value": "1.1",
+										"description": "1.0 ist default (muss nicht angegeben werden)",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"description": "Response Header zeigt supported versions",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/projects/:id/clusters",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"projects",
+										":id",
+										"clusters"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "GET",
+							"item": [
+								{
+									"name": "400 Bad Request (Cluster)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id/clusters/:clusterId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id",
+												"clusters",
+												":clusterId"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+												},
+												{
+													"key": "clusterId",
+													"value": "b4c5634d-2576-4996-9244-69a9aa429ff"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "404 Not Found (Project)",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json;q=0.8,application/xml;q=0.9",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "97a1dc68-0809-4b7b-8b5f-97020925c19a",
+													"type": "string",
+													"description": "\n"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "500 Internal Server Error",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "api-version",
+												"value": "1.0",
+												"type": "text"
+											},
+											{
+												"key": "internal-server-error-demo",
+												"value": "true",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/projects?limit=2&offset=0",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "2"
+												},
+												{
+													"key": "offset",
+													"value": "0"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "POST",
+							"item": [
+								{
+									"name": "409 Conflict (User)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"Robin\",\r\n    \"password\": \"$F(#>_+@2.2U2en?\",\r\n    \"roles\": [\r\n        {\r\n            \"clusterId\": \"2e64769e-62db-4beb-9bfc-0dfef91ade78\",\r\n            \"roleName\": \"read\"\r\n        },\r\n        {\r\n            \"clusterId\": \"2e64769e-62db-4beb-9bfc-0dfef91ade78\",\r\n            \"roleName\": \"write\"\r\n        },\r\n        {\r\n            \"clusterId\": \"2e64769e-62db-4beb-9bfc-0dfef91ade78\",\r\n            \"roleName\": \"dbOwner\"\r\n        }\r\n    ],\r\n    \"scopes\": [\r\n        \"2e64769e-62db-4beb-9bfc-0dfef91ade78\"\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id",
+												"users"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "PATCH",
+							"item": [
+								{
+									"name": "400 Bad Request (Cluster)",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n  {\r\n    \"path\": \"/configuration/diskSizeGb\",\r\n    \"op\": \"replae\",\r\n    \"value\": \"3000\"\r\n  },\r\n  {\r\n    \"path\": \"/regionConfiguration/0/region\",\r\n    \"op\": \"replace\",\r\n    \"value\": \"ap-west-1\"\r\n  }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id/clusters/:clusterId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id",
+												"clusters",
+												":clusterId"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+												},
+												{
+													"key": "clusterId",
+													"value": "b4c5634d-2576-4996-9244-69a9aa429ffe"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "DELETE",
+							"item": [
+								{
+									"name": "409 Conflict (Project)",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "97a1dc68-0809-4b7b-8b5f-97020925c19b"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "4ce8eb35-23ee-4364-8209-0e45928948c2",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:7118/api"
+		}
+	]
+}
