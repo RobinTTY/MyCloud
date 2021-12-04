@@ -9,7 +9,7 @@ Just a small project to explore REST API creation in ASP.NET.
 - Content Negotiation
 - API Versioning
 - Authorization
-- Updates via [JsonPatch](https://www.google.com/search?q=jsonpatch+rfc&oq=jsonpatch+rfc&aqs=edge.0.0i512j0i22i30.1625j0j4&sourceid=chrome&ie=UTF-8) documents
+- Updates via [JsonPatch](https://datatracker.ietf.org/doc/html/rfc6902) documents
 
 ## Endpoints
 
