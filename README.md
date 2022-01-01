@@ -1,4 +1,4 @@
-# MyCloud
+# MyCloud - ASP.NET REST Exploration
 
 Just a small project to explore REST API creation in ASP.NET.
 
